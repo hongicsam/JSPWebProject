@@ -1,15 +1,15 @@
-package SUAProject;
+package regist;
 
 import common.JDBConnect;
 import jakarta.servlet.ServletContext;
 
-public class SUAProjectDAO extends JDBConnect {
-	public SUAProjectDAO(ServletContext app) {
-		super(app);
-	}
+public class RegistDAO extends JDBConnect{
 	
-	// 회원정보 입력은 위한 메서드 정의
-	public int registInsert(SUAProjectDTO dto) {
+	public RegistDAO(ServletContext application) {
+		super(application);
+	}
+
+	public int registInsert(RegistDTO dto) {
 		int result = 0;
 		String query = "INSERT INTO regist_member VALUES ("
 					+ " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
@@ -26,11 +26,28 @@ public class SUAProjectDAO extends JDBConnect {
 			psmt.setString(8, dto.getZipcode());
 			psmt.setString(9, dto.getAddr1());
 			psmt.setString(10, dto.getAddr2());
-
 			result = psmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	public boolean idOverlap(String id) {
+		boolean retValue = true;
+		String sql = "SELECT COUNT(*) FROM regist_member WHERE id=?";
+		try {
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			rs.next();
+			int result = rs.getInt(1);
+			if(result==1) {
+				retValue = false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return retValue;
 	}
 }

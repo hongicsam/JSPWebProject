@@ -1,6 +1,6 @@
-package SUAProject;
+package regist;
 
-public class SUAProjectDTO {
+public class RegistDTO {
 	private String id;
 	private String pass;
 	private String name;
@@ -72,5 +72,5 @@ public class SUAProjectDTO {
 	public void setAddr2(String addr2) {
 		this.addr2 = addr2;
 	}
-	
+
 }
