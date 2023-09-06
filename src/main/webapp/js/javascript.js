@@ -101,13 +101,17 @@ function formValidate(frm){
         frm.email_2.focus();
         return false;
     }
-    
+	
+	if(frm.open_email.checked){
+		frm.open_email_value.value = 'o';
+	}
+	
     if(frm.zipcode.value==''){
         alert("우편번호를 입력해주세요.");
         frm.zipcode.focus();
         return false;
     }
-    
+
     frm.submit();
     
 }
@@ -118,7 +122,24 @@ function id_check_person(frm){
         frm.id.focus();
     }
     else{
-        window.open('RegiIdOverlap.jsp?id=' + frm.id.value, 'idOver', 'width=500,height=300');
+		if(!(frm.id.value.length>=4 && frm.id.value.length<=12)){
+	        alert("아이디는 4~12자 사이만 가능합니다.");
+	        frm.id.value = '';
+	        frm.id.focus();
+	        return false;
+	    }
+	    
+	    for(var i=0 ; i<frm.id.value.length ; i++){
+	        if(!((frm.id.value[i]>='a' && frm.id.value[i]<='z') ||
+	            (frm.id.value[i]>='A' && frm.id.value[i]<='Z') ||
+	            (frm.id.value[i]>='0' && frm.id.value[i]<='9'))){
+	            alert("아이디는 영문 및 숫자의 조합만 가능합니다.");
+	            frm.id.value='';
+	            frm.id.focus();
+	            return false; 
+	        }
+	    }
+        window.open('registIdOverlap.jsp?id=' + frm.id.value, 'idOver', 'width=500,height=300');
         frm.id.readOnly = true;
     }
 }

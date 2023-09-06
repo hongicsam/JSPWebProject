@@ -31,7 +31,7 @@ public class JDBConnect {
             //연결 성공시 콘솔에서 로그 확인 
             System.out.println("DB 연결 성공(기본 생성자)");
         }
-        catch (Exception e) {            
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

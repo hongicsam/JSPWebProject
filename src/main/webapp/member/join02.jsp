@@ -42,7 +42,7 @@ function zipFind(){
 					</colgroup>
 					<tr>
 						<th><img src="../images/join_tit002.gif" /></th>
-						<td><input type="text" name="id"  value="" class="join_input" />&nbsp;<a onclick="id_check_person(this.form);" style="cursor:hand;"><img src="../images/btn_idcheck.gif" alt="중복확인"/></a>&nbsp;&nbsp;<span>* 4자 이상 12자 이내의 영문/숫자 조합하여 공백 없이 기입</span></td>
+						<td><input type="text" name="id"  value="" class="join_input" />&nbsp;<a onclick='id_check_person(document.querySelector("form"));' style="cursor:hand;"><img src="../images/btn_idcheck.gif" alt="중복확인"/></a>&nbsp;&nbsp;<span>* 4자 이상 12자 이내의 영문/숫자 조합하여 공백 없이 기입</span></td>
 					</tr>
 					<tr>
 						<th><img src="../images/join_tit003.gif" /></th>
@@ -86,7 +86,8 @@ function zipFind(){
 								<option value="daum.net" >daum.net</option>
 								<option value="gmail.com" >gmail.com</option>
 							</select>
-							<input type="checkbox" name="open_email" value="1">
+							<input type="checkbox" name="open_email" value='x'>
+							<input type="hidden" name="open_email_value" value="x">
 							<span>이메일 수신동의</span>
 						</td>
 					</tr>
