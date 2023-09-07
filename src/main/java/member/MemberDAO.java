@@ -1,18 +1,22 @@
-package regist;
+package member;
 
 import common.JDBConnect;
 import jakarta.servlet.ServletContext;
 
-public class RegistDAO extends JDBConnect{
+public class MemberDAO extends JDBConnect{
 	
-	public RegistDAO(ServletContext application) {
+	public MemberDAO(String driver, String url, String id, String pwd) {
+		super(driver, url, id, pwd);
+	}
+	
+	public MemberDAO(ServletContext application) {
 		super(application);
 	}
 
-	public int registInsert(RegistDTO dto) {
+	public int registInsert(MemberDTO dto) {
 		int result = 0;
 		String query = "INSERT INTO regist_member VALUES ("
-					+ " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
+					+ " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate"
 					+ " )";
 		try {
 			psmt = con.prepareStatement(query);
@@ -50,4 +54,27 @@ public class RegistDAO extends JDBConnect{
 		}
 		return retValue;
 	}
+
+	public MemberDTO getMemberDTO(String uid, String upass) {
+		MemberDTO dto = new MemberDTO();
+		
+		String query = "SELECT * FROM regist_member WHERE id=? AND pass=?";
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, uid);
+			psmt.setString(2, upass);
+			rs=psmt.executeQuery();
+			
+			if(rs.next()) {
+				dto.setId(rs.getString("id"));
+				dto.setPass(rs.getString("pass"));
+				dto.setName(rs.getString("name"));
+				dto.setRegidate(rs.getString("regidate"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+	
 }

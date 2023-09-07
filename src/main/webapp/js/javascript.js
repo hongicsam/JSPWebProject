@@ -15,7 +15,7 @@ function formValidate(frm){
 		frm.id.focus();
 		return false;
 	}
-	
+
 	if(!(frm.id.value.length>=4 && frm.id.value.length<=12)){
         alert("아이디는 4~12자 사이만 가능합니다.");
         frm.id.value = '';

@@ -42,7 +42,11 @@ function zipFind(){
 					</colgroup>
 					<tr>
 						<th><img src="../images/join_tit002.gif" /></th>
-						<td><input type="text" name="id"  value="" class="join_input" />&nbsp;<a onclick='id_check_person(document.querySelector("form"));' style="cursor:hand;"><img src="../images/btn_idcheck.gif" alt="중복확인"/></a>&nbsp;&nbsp;<span>* 4자 이상 12자 이내의 영문/숫자 조합하여 공백 없이 기입</span></td>
+						<td>
+							<input type="text" name="id"  value="" class="join_input" />&nbsp;
+							<a onclick='id_check_person(document.querySelector("form"));' style="cursor:hand;"><img src="../images/btn_idcheck.gif" alt="중복확인"/></a>&nbsp;&nbsp;
+							<span>* 4자 이상 12자 이내의 영문/숫자 조합하여 공백 없이 기입</span>
+						</td>
 					</tr>
 					<tr>
 						<th><img src="../images/join_tit003.gif" /></th>
@@ -94,17 +98,16 @@ function zipFind(){
 					<tr>
 						<th><img src="../images/join_tit09.gif" /></th>
 						<td>
-						<input type="text" name="zipcode" value=""  class="join_input" style="width:50px;" />
-						<a href="javascript:void(0);" title="새 창으로 열림" onclick="zipFind();" onkeypress="">[우편번호검색]</a>
-						<br/>
-						
-						<input type="text" name="addr1" value=""  class="join_input" style="width:550px; margin-top:5px;" /><br>
-						<input type="text" name="addr2" value=""  class="join_input" style="width:550px; margin-top:5px;" />
-						
+							<input type="text" name="zipcode" value=""  class="join_input" style="width:50px;" />
+							<a href="javascript:void(0);" title="새 창으로 열림" onclick="zipFind();" onkeypress="">[우편번호검색]</a>
+							<br/>
+							
+							<input type="text" name="addr1" value=""  class="join_input" style="width:550px; margin-top:5px;" /><br>
+							<input type="text" name="addr2" value=""  class="join_input" style="width:550px; margin-top:5px;" />
 						</td>
 					</tr>
 				</table>
-				<p style="text-align:center; margin-bottom:20px"><a onclick='formValidate(document.querySelector("form"));' href="javascript:void(0);<!-- join02.jsp -->"><img src="../images/btn01.gif" /></a>&nbsp;&nbsp;<a href="#"><img src="../images/btn02.gif" /></a></p>
+				<p style="text-align:center; margin-bottom:20px"><a onclick='formValidate(document.querySelector("form"));' href="javascript:void(0);"><img src="../images/btn01.gif" /></a>&nbsp;&nbsp;<a href="#"><img src="../images/btn02.gif" /></a></p>
 				</form>	
 			</div>
 		</div>

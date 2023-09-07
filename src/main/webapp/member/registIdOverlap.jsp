@@ -1,10 +1,10 @@
-<%@page import="regist.RegistDAO"%>
+<%@page import="member.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 String id = request.getParameter("id");
 
-RegistDAO dao = new RegistDAO(application);
+MemberDAO dao = new MemberDAO(application);
 boolean isExist = dao.idOverlap(id);
 %>
 <!DOCTYPE html>

@@ -1,6 +1,6 @@
-package regist;
+package member;
 
-public class RegistDTO {
+public class MemberDTO {
 	private String id;
 	private String pass;
 	private String name;
@@ -11,6 +11,8 @@ public class RegistDTO {
 	private String zipcode;
 	private String addr1;
 	private String addr2;
+	private String regidate;
+	
 	
 	public String getId() {
 		return id;
@@ -72,5 +74,10 @@ public class RegistDTO {
 	public void setAddr2(String addr2) {
 		this.addr2 = addr2;
 	}
-
+	public String getRegidate() {
+		return regidate;
+	}
+	public void setRegidate(String regidate) {
+		this.regidate = regidate;
+	}
 }
