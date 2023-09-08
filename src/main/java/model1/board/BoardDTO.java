@@ -1,7 +1,6 @@
 package model1.board;
 
 public class BoardDTO {
-	//멤버변수 : board 테이블에 생성된 컬럼과 동일하게 선언
     private String num;
     private String title;
     private String content;
@@ -12,9 +11,6 @@ public class BoardDTO {
     멤버변수를 추가한다. */
     private String name;
     
-    //특별한 이유가 없다면 생성자는 선언하지 않는다. 
-
-    //getter/setter 메서드 
     public String getNum() {
         return num;
     }

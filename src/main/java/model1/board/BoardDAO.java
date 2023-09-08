@@ -115,9 +115,9 @@ public class BoardDAO extends JDBConnect {
                          + " seq_board_num.NEXTVAL, ?, ?, ?, 0)";  
             psmt = con.prepareStatement(query); 
             //인파라미터는 DTO에 저장된 내용으로 채워준다. 
-            psmt.setString(1, dto.getTitle());  
+            psmt.setString(1, dto.getTitle());
             psmt.setString(2, dto.getContent());
-            psmt.setString(3, dto.getId());  
+            psmt.setString(3, dto.getId());
             //insert쿼리문을 실행한 후 결과값(int)을 반환받는다. 
             result = psmt.executeUpdate(); 
         }

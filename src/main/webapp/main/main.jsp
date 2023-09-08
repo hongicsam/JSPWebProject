@@ -10,6 +10,23 @@
 @import url("../css/main.css");
 @import url("../css/sub.css");
 </style>
+<script>
+/* 로그인 폼의 입력값을 검증하기 위한 함수로 빈값인지를 확인한다. */
+function validateForm(form) {
+	//입력값이 공백인지 확인후 경고창, 포커스이동, 폼값전송 
+	//중단처리를 한다.
+    if (!form.user_id.value) {
+        alert("아이디를 입력하세요.");
+        form.user_id.focus();
+        return false;
+    }
+    if (form.user_pw.value == "") {
+        alert("패스워드를 입력하세요.");
+        form.user_pw.focus();
+        return false;
+    }
+}
+</script>
 </head>
 <body>
 <center>
@@ -24,6 +41,10 @@
 			<div class="main_con_left">
 				<p class="main_title" style="border:0px; margin-bottom:0px;"><img src="../images/main_title01.gif" alt="로그인 LOGIN" /></p>
 				<div class="login_box">
+<%
+if(session.getAttribute("UserId")==null){
+%>
+				<form action="../member/LoginProcess.jsp" method="post" name="loginFrm">
 					<table cellpadding="0" cellspacing="0" border="0">
 						<colgroup>
 							<col width="45px" />
@@ -32,12 +53,12 @@
 						</colgroup>
 						<tr>
 							<th><img src="../images/login_tit01.gif" alt="아이디" /></th>
-							<td><input type="text" name="" value="" class="login_input" /></td>
-							<td rowspan="2"><input type="image" src="../images/login_btn01.gif" alt="로그인" /></td>
+							<td><input type="text" tabindex="1" name="user_id" value="" class="login_input" /></td>
+							<td rowspan="2"><input type="image" tabindex="3" src="../images/login_btn01.gif" alt="로그인" /></td>
 						</tr>
 						<tr>
 							<th><img src="../images/login_tit02.gif" alt="패스워드" /></th>
-							<td><input type="text" name="" value="" class="login_input" /></td>
+							<td><input type="password" tabindex="2" name="user_pw" value="" class="login_input" /></td>
 						</tr>
 					</table>
 					<p>
@@ -45,14 +66,19 @@
 						<a href="../member/id_pw.jsp"><img src="../images/login_btn02.gif" alt="아이디/패스워드찾기" /></a>
 						<a href="../member/join01.jsp"><img src="../images/login_btn03.gif" alt="회원가입" /></a>
 					</p>
-					 
+				</form>
+<%
+}else{
+%>
 					<!-- 로그인 후 -->
-					<!-- <p style="padding:10px 0px 10px 10px"><span style="font-weight:bold; color:#333;">000님,</span> 반갑습니다.<br />로그인 하셨습니다.</p>
+					<p style="padding:10px 0px 10px 10px"><span style="font-weight:bold; color:#333;"><%= session.getAttribute("UserName") %>님,</span> 반갑습니다.<br />로그인 하셨습니다.</p>
 					<p style="text-align:right; padding-right:10px;">
 						<a href=""><img src="../images/login_btn04.gif" /></a>
-						<a href=""><img src="../images/login_btn05.gif" /></a>
-					</p> -->
-			 
+						<a href="../member/Logout.jsp"><img src="../images/login_btn05.gif" /></a>
+					</p>
+<%
+}
+%>
 				</div>
 			</div>
 			<div class="main_con_center">
