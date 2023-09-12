@@ -28,8 +28,8 @@ public class MainCtrl extends HttpServlet {
 		param.put("start", 1);
 		param.put("end", 4);
 		
-		//공지사항 최근 게시물 4개 인출(board)
-		param.put("tname", "board");
+		//공지사항 최근 게시물 4개 인출(announcement)
+		param.put("tname", "announcement");
 		List<BoardDTO> notice = dao.selectListPage(param);
 		
 		//자유게시판 최근 게시물 4개 인출(freeboard)

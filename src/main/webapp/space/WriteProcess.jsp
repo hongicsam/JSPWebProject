@@ -1,3 +1,5 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
 <%@page import="utils.JSFunction"%>
 <%@ page import="model1.board.BoardDAO"%>
 <%@ page import="model1.board.BoardDTO"%>
@@ -9,7 +11,6 @@
 <%
 //게시판 테이블 파라미터 받아오기
 String tname = request.getParameter("tname");
-
 //클라이언트가 작성한 폼값을 받아온다. 
 String title = request.getParameter("title");
 String content = request.getParameter("content");
@@ -24,8 +25,11 @@ dto.setId(session.getAttribute("UserId").toString());
 
 BoardDAO dao = new BoardDAO(application);
 
+Map<String, Object> param = new HashMap<String, Object>();
+param.put("tname", tname);
+
 //기존과 같이 게시물 1개를 등록할때 사용..
-int iResult = dao.insertWrite(dto);
+int iResult = dao.insertWrite(dto, param);
 
 //페이징 테스트를 위해 100개의 게시물을 한번에 입력..
 /* 

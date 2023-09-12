@@ -1,3 +1,7 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="model1.board.BoardDTO"%>
+<%@page import="model1.board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -7,7 +11,24 @@
 
 <%
 //게시판 테이블 파라미터 받아오기
+String num = request.getParameter("num");
+
+Map<String, Object> param = new HashMap<String, Object>();
+param.put("tname", tname);
+
+BoardDAO dao = new BoardDAO(application);
+BoardDTO dto = dao.selectView(num, param);
+String sessionId = session.getAttribute("UserId").toString();
+
 String tname = request.getParameter("tname");
+
+if (!sessionId.equals(dto.getId())) {  
+	//작성자가 아니라면 진입할 수 없도록 하고 뒤로 이동한다. 
+    JSFunction.alertBack("작성자 본인만 수정할 수 있습니다.", out);
+    return;
+}
+
+dao.close();
 %>
     
 <%@ include file="../include/global_head.jsp" %>
@@ -44,30 +65,29 @@ function validateForm(form) {
 				</div>
 				<div>
 <!-- 게시판 들어가는 부분s -->
-<form name="writeFrm" method="post" action="WriteProcess.jsp"
+<form name="writeFrm" method="post" action="EditProcess.jsp"
       onsubmit="return validateForm(this);">
 
-<input type="hidden" name="tname" value="<%= tname %>" />
+<input type="hidden" name="tname" value="<%=tname %>" />
       
     <table class="table table-bordered" width="90%">
         <tr>
             <td>제목</td>
             <td>
-                <input type="text" name="title" style="width: 90%;" />
+                <input type="text" name="title" style="width: 90%;" value="<%= dto.getTitle() %>"/>
             </td>
         </tr>
         <tr>
             <td>내용</td>
             <td>
-                <textarea name="content" style="width: 90%; height: 100px;"></textarea>
+                <textarea name="content" style="width: 90%; height: 100px;"><%= dto.getContent() %></textarea>
             </td>
         </tr>
         <tr>
             <td colspan="2" align="center">
-                <button type="submit">작성 완료</button>
+                <button type="submit" onclick="location.href='sub01View.jsp';">작성 완료</button>
                 <button type="reset">다시 입력</button>
-                <button type="button" onclick="location.href='List.jsp';">
-                    목록 보기</button>
+                <button type="button" onclick="location.href='sub01List.jsp';">목록 보기</button>
             </td>
         </tr>
     </table>

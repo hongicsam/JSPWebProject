@@ -26,7 +26,7 @@ public class BoardDAO extends JDBConnect {
 
     	
     	//게시물 수를 얻어오기 위한 퀴리문 작성 
-        //String query = "SELECT COUNT(*) FROM board";        
+        //String query = "SELECT COUNT(*) FROM announcement";        
     	String query = "SELECT COUNT(*) FROM "+ map.get("tname");
     	
     	
@@ -55,64 +55,17 @@ public class BoardDAO extends JDBConnect {
         return totalCount; 
     }
     
-    /* 작성된 게시물을 인출하여 반환한다. 특히 반환값은 여러개의 레코드를
-    반환할 수 있고, 순서를 보장해야 하므로 List 컬렉션을 사용한다. */
-    public List<BoardDTO> selectList(Map<String, Object> map) { 
-        
-    	/* List계열의 컬렉션을 생성한다. 이때 타입 매개변수는 board테이블
-    	을 대상으로 하므로 BoardDTO로 설정한다. */
-    	List<BoardDTO> bbs = new Vector<BoardDTO>();  
-
-    	/* 레코드 인출을 위한 select 쿼리문 작성. 최근 게시물이 상단에
-    	출력되야 하므로 일련번호의 내림차순으로 정렬한다. */
-        String query = "SELECT * FROM board "; 
-        if (map.get("searchWord") != null) {
-            query += " WHERE " + map.get("searchField") + " "
-                   + " LIKE '%" + map.get("searchWord") + "%' ";
-        }
-        query += " ORDER BY num DESC "; 
-
-        try {
-        	//쿼리 실행 및 결과셋 반환 
-            stmt = con.createStatement();    
-            rs = stmt.executeQuery(query);
-            //2개 이상의 레코드가 반환될 수 있으므로 while문을 사용한다. 
-            while (rs.next()) {
-            	//하나의 레코드를 저장할 수 있는 DTO객체를 생성한다.
-                BoardDTO dto = new BoardDTO(); 
-
-                //setter를 이용해서 각 컬럼의 값을 멤버변수에 저장한다. 
-                dto.setNum(rs.getString("num"));          
-                dto.setTitle(rs.getString("title"));       
-                dto.setContent(rs.getString("content")); 
-                dto.setPostdate(rs.getDate("postdate"));   
-                dto.setId(rs.getString("id"));            
-                dto.setVisitcount(rs.getString("visitcount"));  
-                
-                //List에 DTO를 추가한다. 
-                bbs.add(dto);  
-            }
-        } 
-        catch (Exception e) {
-            System.out.println("게시물 조회 중 예외 발생");
-            e.printStackTrace();
-        }
-
-        //인출한 레코드를 저장한 List를 호출한 지점으로 반환한다. 
-        return bbs;
-    }
-    
     //게시물 입력을 위한 메서드. 폼값이 저장된 DTO객체를 인수로 받는다.
-    public int insertWrite(BoardDTO dto) {
+    public int insertWrite(BoardDTO dto, Map<String, Object> map) {
         int result = 0;        
         try {
         	/* 인파라미터가 있는 동적쿼리문으로 insert문을 작성한다. 
         	게시물의 일련번호는 시퀀스를 통해 자동부여하고, 조회수는 
         	0으로 입력한다. */
-            String query = "INSERT INTO board ( "
+            String query = "INSERT INTO " + map.get("tname") + " ( "
                          + " num,title,content,id,visitcount) "
                          + " VALUES ( "
-                         + " seq_board_num.NEXTVAL, ?, ?, ?, 0)";  
+                         + " "+ map.get("tname") +"_num.NEXTVAL, ?, ?, ?, 0)";  
             psmt = con.prepareStatement(query); 
             //인파라미터는 DTO에 저장된 내용으로 채워준다. 
             psmt.setString(1, dto.getTitle());
@@ -130,20 +83,20 @@ public class BoardDAO extends JDBConnect {
     }
     
     //인수로 전달된 게시물의 일련번호로 하나의 게시물을 인출한다. 
-    public BoardDTO selectView(String num) { 
+    public BoardDTO selectView(String num, Map<String, Object> map) { 
     	//하나의 레코드를 저장하기 위한 DTO객체 생성
     	BoardDTO dto = new BoardDTO();
     	
     	/* 내부조인(inner join)을 통해 member테이블의 name컬럼까지
     	select 한다. */
         String query = "SELECT B.*, M.name " 
-                     + " FROM member M INNER JOIN board B " 
-                     + " ON M.id=B.id "
-                     + " WHERE num=?";
+                     + "FROM regist_member M INNER JOIN "+ map.get("tname") +" B " 
+                     + "ON M.id=B.id "
+                     + "WHERE num=?";
         try {
         	//쿼리문의 인파라미터를 설정한 후 쿼리문 실행 
             psmt = con.prepareStatement(query);
-            psmt.setString(1, num);   
+            psmt.setString(1, num);
             rs = psmt.executeQuery();
             /*
             일련번호는 중복되지 않으므로 단 한개의 게시물만 인출하게된다. 
@@ -178,7 +131,7 @@ public class BoardDAO extends JDBConnect {
     public void updateVisitCount(String num) {
     	/* 게시물의 일련번호를 통해 visitcount를 1 증가시킨다. 
     	해당 컬럼은 number 타입이므로 사칙연산이 가능하다. */
-        String query = "UPDATE board SET "
+        String query = "UPDATE announcement SET "
                      + " visitcount=visitcount+1 "
                      + " WHERE num=?";
         
@@ -194,11 +147,11 @@ public class BoardDAO extends JDBConnect {
     }
     
     //게시물 수정하기 
-    public int updateEdit(BoardDTO dto) { 
+    public int updateEdit(BoardDTO dto, Map<String, Object> map) { 
         int result = 0;        
         try {
         	//특정 일련번호에 해당하는 게시물을 수정한다. 
-            String query = "UPDATE board SET "
+            String query = "UPDATE "+ map.get("tname") +" SET "
                          + " title=?, content=? "
                          + " WHERE num=?";
             //쿼리문의 인파라미터 설정 
@@ -223,7 +176,7 @@ public class BoardDAO extends JDBConnect {
 
         try {
         	//인파라미터가 있는 delete쿼리문 작성
-            String query = "DELETE FROM board WHERE num=?";
+            String query = "DELETE FROM announcement WHERE num=?";
             psmt = con.prepareStatement(query); 
             psmt.setString(1, dto.getNum()); 
             result = psmt.executeUpdate(); 

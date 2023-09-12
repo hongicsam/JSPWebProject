@@ -1,3 +1,5 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
 <%@page import="model1.board.BoardDTO"%>
 <%@page import="model1.board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -13,8 +15,12 @@ String num = request.getParameter("num");
 BoardDAO dao = new BoardDAO(application);
 //게시물의 조회수 증가
 dao.updateVisitCount(num);
+
+Map<String, Object> param = new HashMap<String, Object>();
+param.put("tname", tname);
+
 //게시물의 내용을 인출하여 DTO에 저장한다. 
-BoardDTO dto = dao.selectView(num);
+BoardDTO dto = dao.selectView(num, param);
 dao.close();
 %>
     
@@ -77,17 +83,16 @@ dao.close();
 if(session.getAttribute("UserId")!=null &&  
 	dto.getId().equals(session.getAttribute("UserId").toString())){
 %>
-     <button type="button"
-             onclick="location.href='Edit.jsp?num=<%= dto.getNum() %>';">
+     <button type="button" class="btn btn-warning" onclick="location.href='sub01Edit.jsp?num=<%= dto.getNum() %>';">
          수정하기</button>
          
      <!-- 삭제하기 버튼을 누르면 JS의 함수를 호출한다. 해당 함수는 
      submit()을 통해 폼값을 서버로 전송한다.  -->
-     <button type="button" onclick="deletePost();">삭제하기</button> 
+     <button type="button" class="btn btn-danger" onclick="deletePost();">삭제하기</button> 
 <%
 }
 %>
-                <button type="button" class="btn btn-primary" onclick="location.href='List.jsp';">
+                <button type="button" class="btn btn-primary" onclick="location.href='sub01List.jsp?tname=<%= tname %>';">
                     목록 보기
                 </button>
             </td>
